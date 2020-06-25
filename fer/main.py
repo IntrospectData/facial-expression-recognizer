@@ -15,7 +15,10 @@ log = logging.getLogger("fer-capture-log")
 expression_dict = {0: "Angry", 1: "Disgust", 2: "Fear", 3: "Happy", 4: "Sad", 5: "Surprise", 6: "Neutral"}
 face_casc = os.path.join(os.path.dirname(__file__), "haarcascade_frontalface_default.xml")
 
-default_model_path = wget.download("https://storage.googleapis.com/id-public-read/model.h5")
+if not os.path.exists("model.h5"):
+    default_model_path = wget.download("https://storage.googleapis.com/id-public-read/model.h5")
+else:
+    default_model_path="model.h5"
 
 def path_to_img(image_path):
     """
@@ -141,9 +144,11 @@ def check_stream(input=0, model_path=default_model_path, show=False):
     cap = cv2.VideoCapture(input)
     model = tf.keras.models.load_model(model_path)
     data = []
+    print(cap)
     while True:
         _, img = cap.read()
-        if type(img) is not "NoneType":
+        print(img)
+        if _ and type(img) is not "NoneType":
             try:
                 data.append(face_check(img, model, show))
             except Exception as e:
